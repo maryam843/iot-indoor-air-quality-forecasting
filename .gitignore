@@ -1,0 +1,18 @@
+# Secrets
+credentials*
+.env
+arduino_secrets.h
+
+# Model artefacts (pickles are unsafe to load and not reproducible)
+*.pkl
+*.save
+
+# Jupyter / Python
+.ipynb_checkpoints/
+__pycache__/
+*.pyc
+
+# Course files that must not be published
+*.zip
+*.docx
+*.pdf
