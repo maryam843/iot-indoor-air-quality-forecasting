@@ -9,7 +9,6 @@ pmdarima>=2.0
 prophet>=1.1
 torch>=2.0
 pyro-ppl>=1.8
-joblib>=1.2
 jupyter
 
 # IoT API client (iot/api_client/)

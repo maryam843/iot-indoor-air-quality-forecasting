@@ -1,7 +1,7 @@
 """
 Fetch the time series of an Arduino IoT Cloud Thing and save it as one wide CSV.
 
-Version used on 10 June 2025. Known limitation: no pagination — the raw series
+Version used on 10 June 2025. Known limitation: no pagination: the raw series
 endpoint returns at most 1,000 points per variable, so a 10-day request returns
 only the latest ~1 hour.
 
@@ -14,7 +14,7 @@ Setup:
     cp .env.example .env      # then fill in your own values (never commit .env)
     python fetch_timeseries.py
 
-TODO (not implemented — ideas for fixing the limitation above):
+TODO (not implemented, ideas for fixing the limitation above):
   * Pagination by time chunks: split [EXTRACT_FROM, EXTRACT_TO] into windows small
     enough to stay under 1,000 points (about 15 minutes for VOC at 1 s, about
     50 minutes for temperature/humidity at ~3.3 s), request each window, and

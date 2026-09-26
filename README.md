@@ -6,17 +6,17 @@ An Arduino indoor air-quality sensor and an honest look at forecasting its data.
 
 We set up an Arduino board with a sensor shield in a university lab, sent VOC, temperature and humidity readings to Arduino IoT Cloud, and watched them on a live dashboard. We then pulled the data out (first with a small Python API client, then with the cloud's bulk export) and tried a range of statistical and machine-learning models to forecast the readings.
 
-Joint project with a classmate — DSAI3204 IoT Application Development, UDST, June 2025.
+Joint project with a classmate, DSAI3204 IoT Application Development, UDST, June 2025.
 
 ## Hardware and pipeline
 
-Arduino MKR WiFi 1010 with an Arduino MKR IoT Carrier (sensor: Bosch BME688 on the Rev2 carrier, to be confirmed from the board marking). The board sends VOC every second and temperature/humidity whenever they change (about every 3.3 s). Details, the sketch, the API client and screenshots are in [`iot/README.md`](iot/README.md).
+Arduino MKR WiFi 1010 with an Arduino MKR IoT Carrier (Bosch BME68x gas sensor on the carrier). The board sends VOC every second and temperature/humidity whenever they change (about every 3.3 s). Details, the sketch, the API client and screenshots are in [`iot/README.md`](iot/README.md).
 
 ![The sensor node connected to a lab PC showing the dashboard](iot/images/device.jpg)
 
 ```mermaid
 flowchart LR
-  S["BME688 on MKR IoT Carrier<br/>(temperature, humidity, VOC)"] --> B["MKR WiFi 1010"]
+  S["BME68x on MKR IoT Carrier<br/>(temperature, humidity, VOC)"] --> B["MKR WiFi 1010"]
   B -->|"Wi-Fi"| C["Arduino IoT Cloud"]
   C --> D["Live dashboard"]
   C -->|"REST API, OAuth2<br/>(max 1,000 points per variable)"| E["API sample (~1 hour)"]
@@ -40,7 +40,7 @@ flowchart LR
 - Cleaning: timestamp parsing, 1-minute resampling, z-score outlier removal
 - Exploration: time plots, rolling statistics, ADF stationarity test, ACF/PACF, seasonal decomposition
 - Statistical models: ARIMA and auto-ARIMA, exponential smoothing (ETS), Prophet, a moving-average baseline
-- Machine learning: linear, Ridge, Lasso and polynomial regression on time-of-day features; a Random Forest on 60 lagged VOC values; a Bayesian neural network in Pyro with uncertainty bands
+- Machine learning: linear, Ridge, Lasso and polynomial regression on time-of-day features; a Random Forest on 60 lagged VOC values plus humidity and temperature; a Bayesian neural network in Pyro with uncertainty bands
 
 | Notebook | What it does |
 |---|---|
@@ -61,7 +61,7 @@ Each notebook starts with a short summary cell: data, split, horizon, result and
 | Temperature / humidity / VOC | auto-ARIMA | 100 min | RMSE 0.264 / 0.302 / 0.044 | best simple baseline 0.198 / 0.299 / 0.036 | none beat the best baseline |
 | Humidity next minute | Bayesian NN | 1 min | R² 0.9994 | repeat last value 0.9994 | tie (useful only for the uncertainty bands) |
 
-The model scores are the saved outputs from our course notebooks. The baselines were computed later, during a review of the project, on the same data and splits. The ARIMA and Random Forest numbers come from an older intermediate file whose humidity column was misaligned (see the data card), so they will change when re-run on `sensors_1min.csv`.
+The model scores are the saved outputs from our course notebooks. The baselines were computed later, during a review of the project, on the same data and splits. Notebooks 03 and 04 used an older intermediate file whose humidity column was misaligned (see the data card). Temperature and VOC in that file are identical to the same minutes of `sensors_1min.csv`, but two things differ. The Random Forest in notebook 04 also uses humidity (and temperature) as inputs, so its R² (0.854) was affected by the misaligned humidity, not only the auto-ARIMA humidity score (0.302). And the old file covered only 3–7 June, while the notebooks now read all of 3–17 June, so every score from notebooks 03 and 04 will change when re-run. The VOC models in notebook 02 were run on the raw data and are not affected.
 
 ![VOC test period: ARIMA, ETS and the moving-average baseline are all almost flat lines](figures/voc_forecasts_vs_sma_baseline.png)
 
@@ -100,7 +100,7 @@ python scripts/build_1min_dataset.py
 jupyter notebook notebooks/
 ```
 
-The pinned versions (numpy < 2, scikit-learn < 1.6) match the code; Python 3.10 or 3.11 works best. The saved outputs in the notebooks are from our original runs. If packages will not install locally, open the notebooks in Google Colab after cloning the repo (`!git clone ...` then `%cd iot-indoor-air-quality-forecasting/notebooks`) so the relative `../data/` paths work.
+Needs Python 3.10–3.12 (the pinned numpy/pandas versions have no packages for newer Python). Google Colab works too. The pinned versions (numpy < 2, scikit-learn < 1.6) match the code. The saved outputs in the notebooks are from our original runs. If packages will not install locally, open the notebooks in Google Colab after cloning the repo (`!git clone https://github.com/maryam843/iot-indoor-air-quality-forecasting.git` then `%cd iot-indoor-air-quality-forecasting/notebooks`) so the relative `../data/` paths work.
 
 The API client in `iot/api_client/` needs your own Arduino Cloud API key in a `.env` file (see `.env.example`).
 

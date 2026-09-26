@@ -6,7 +6,7 @@ This folder has everything from Part A of the project: the Arduino sketch, the P
 
 - **Board:** Arduino MKR WiFi 1010
 - **Sensor shield:** Arduino MKR IoT Carrier, inside its plastic case (`CARRIER_CASE = true` in the sketch)
-- **Sensor:** the readings come from the carrier, not the board (the MKR WiFi 1010 has no environmental sensors). The sketch calls `carrier.AirQuality.readVOC()`, which only exists for the Rev2 carrier, whose sensor is a **Bosch BME688**. *BME688 on the Rev2 carrier: to be confirmed from the board marking.*
+- **Sensor:** the readings come from the carrier, not the board (the MKR WiFi 1010 has no environmental sensors). The sketch calls `carrier.AirQuality.readVOC()`, which only exists for the Rev2 carrier, whose sensor is a **Bosch BME68x** gas sensor.
 - **VOC value:** an estimate from Bosch's BSEC library, printed in "ppm". It is a breath-VOC equivalent, not a calibrated concentration.
 - Powered over USB from a lab PC ("DO NOT REMOVE USB!!" note in the photo).
 
@@ -51,7 +51,7 @@ Both screenshots are from 1 June 2025, the day we set the device up.
 
 ### The 1,000-point lesson
 
-We asked for the last 10 days, but the raw series endpoint returns at most 1,000 points per variable and our client did not page through the results. So we only got the latest ~1 hour (about 56 minutes of temperature/humidity and 19 minutes of VOC). You can see this in [`../data/samples/api_dump_sample.csv`](../data/samples/api_dump_sample.csv): exactly 1,000 values per column, with many blanks because the three sensors have different timestamps.
+We asked for the last 10 days, but the raw series endpoint returns at most 1,000 points per variable and our client did not page through the results. So we only got the latest ~1 hour (about 56 minutes of humidity, 58 minutes of temperature and 19 minutes of VOC). You can see this in [`../data/samples/api_dump_sample.csv`](../data/samples/api_dump_sample.csv): exactly 1,000 values per column, with many blanks because the three sensors have different timestamps.
 
 For the analysis we used Arduino Cloud's "download historic data" export instead (the assignment allowed this). The fix for the client would be to request the time range in smaller chunks and refresh the token, which only lasts about 5 minutes. This is described as a TODO in the script, not implemented.
 
@@ -59,7 +59,7 @@ For the analysis we used Arduino Cloud's "download historic data" export instead
 
 ```mermaid
 flowchart LR
-  S["BME688 on MKR IoT Carrier<br/>(temperature, humidity, VOC)"] --> B["MKR WiFi 1010<br/>reads every ~1 s"]
+  S["BME68x on MKR IoT Carrier<br/>(temperature, humidity, VOC)"] --> B["MKR WiFi 1010<br/>reads every ~1 s"]
   B -->|"Wi-Fi<br/>temp/hum on change (~3.3 s)<br/>VOC every 1 s"| C["Arduino IoT Cloud<br/>3 cloud variables"]
   C --> D["Dashboard<br/>value widgets + charts"]
   C -->|"REST API, OAuth2<br/>(max 1,000 points per variable)"| E["api_dump_sample.csv<br/>~1 hour, not used for modelling"]

@@ -11,6 +11,7 @@ arduino_secrets.h
 .ipynb_checkpoints/
 __pycache__/
 *.pyc
+*.log
 
 # Course files that must not be published
 *.zip
