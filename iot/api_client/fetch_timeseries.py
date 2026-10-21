@@ -5,7 +5,7 @@ Version used on 10 June 2025. Known limitation: no pagination: the raw series
 endpoint returns at most 1,000 points per variable, so a 10-day request returns
 only the latest ~1 hour.
 
-This is a cleaned copy of the client we used in Part A, Task 2 of the course
+This is a cleaned copy of the client used in Part A, Task 2 of the course
 project. The logic is unchanged; only the credentials were moved out of the code
 and into environment variables. Output of the original run: data/samples/api_dump_sample.csv
 
@@ -32,14 +32,16 @@ from collections import defaultdict
 from datetime import datetime, timedelta, timezone
 from time import sleep
 
-from oauthlib.oauth2 import BackendApplicationClient
-from requests_oauthlib import OAuth2Session
-
 import iot_api_client as iot
 from iot_api_client.api import PropertiesV2Api, SeriesV2Api, ThingsV2Api
 from iot_api_client.configuration import Configuration
-from iot_api_client.models import BatchQueryRawRequestMediaV1, BatchQueryRawRequestsMediaV1
+from iot_api_client.models import (
+    BatchQueryRawRequestMediaV1,
+    BatchQueryRawRequestsMediaV1,
+)
 from iot_api_client.rest import ApiException
+from oauthlib.oauth2 import BackendApplicationClient
+from requests_oauthlib import OAuth2Session
 
 try:
     # Optional: load variables from a local .env file
