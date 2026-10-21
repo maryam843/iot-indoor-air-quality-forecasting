@@ -17,3 +17,11 @@ __pycache__/
 *.zip
 *.docx
 *.pdf
+
+# Generated files
+notebooks/*.png
+dump*.csv
+.ruff_cache/
+.pytest_cache/
+.venv/
+venv/
