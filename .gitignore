@@ -13,7 +13,7 @@ __pycache__/
 *.pyc
 *.log
 
-# Course files that must not be published
+# Private files that must not be published
 *.zip
 *.docx
 *.pdf

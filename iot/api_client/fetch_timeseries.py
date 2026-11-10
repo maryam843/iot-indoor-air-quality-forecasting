@@ -5,16 +5,16 @@ Version used on 10 June 2025. Known limitation: no pagination: the raw series
 endpoint returns at most 1,000 points per variable, so a 10-day request returns
 only the latest ~1 hour.
 
-This is a cleaned copy of the client used in Part A, Task 2 of the course
-project. The logic is unchanged; only the credentials were moved out of the code
-and into environment variables. Output of the original run: data/samples/api_dump_sample.csv
+This is a cleaned copy of the project's API client. The logic is unchanged; only
+the credentials were moved out of the code and into environment variables.
+Output of the run on 10 June 2025: data/samples/api_dump_sample.csv
 
 Setup:
     pip install arduino-iot-client requests-oauthlib python-dotenv
     cp .env.example .env      # then fill in your own values (never commit .env)
     python fetch_timeseries.py
 
-TODO (not implemented, ideas for fixing the limitation above):
+Not implemented. Ideas for fixing the limitation above:
   * Pagination by time chunks: split [EXTRACT_FROM, EXTRACT_TO] into windows small
     enough to stay under 1,000 points (about 15 minutes for VOC at 1 s, about
     50 minutes for temperature/humidity at ~3.3 s), request each window, and
