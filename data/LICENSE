@@ -1,0 +1,13 @@
+Data licence
+
+The files in this data/ folder are licensed under the Creative Commons
+Attribution 4.0 International licence (CC BY 4.0):
+https://creativecommons.org/licenses/by/4.0/
+
+Copyright (c) 2025 Maryam Mahaboob
+
+Please cite as: Maryam Mahaboob (2025), Indoor air-quality sensor data
+(VOC, temperature, humidity), Arduino MKR IoT Carrier, 3-17 June 2025.
+
+The code in this repository is licensed separately under the MIT licence
+(see LICENSE in the repository root).
