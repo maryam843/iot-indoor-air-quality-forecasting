@@ -63,7 +63,7 @@ flowchart LR
   B -->|"Wi-Fi<br/>temp/hum on change (~3.3 s)<br/>VOC every 1 s"| C["Arduino IoT Cloud<br/>3 cloud variables"]
   C --> D["Dashboard<br/>value widgets + charts"]
   C -->|"REST API, OAuth2<br/>(max 1,000 points per variable)"| E["api_dump_sample.csv<br/>~1 hour, not used for modelling"]
-  C -->|"historic data export<br/>3–17 June 2025"| G["3 raw CSVs<br/>1.85 M readings"]
+  C -->|"historic data export<br/>3-17 June 2025"| G["3 raw CSVs<br/>1.85 M readings"]
   G -->|"scripts/build_1min_dataset.py<br/>UTC, 1-min means, join on time"| H["data/sensors_1min.csv<br/>21,016 rows"]
   G --> M1["notebooks 01, 02, 05"]
   H --> M2["notebooks 02 (last cell), 03, 04"]

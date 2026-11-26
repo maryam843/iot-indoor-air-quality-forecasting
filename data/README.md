@@ -20,7 +20,7 @@ Indoor air-quality readings from one Arduino sensor node, collected by Maryam Ma
 | `raw/temperature_raw.csv.gz` | 359,436 | `time`, `value` | Temperature, °C. About every 3.34 s. |
 | `raw/voc_raw.csv.gz` | 1,121,175 | `time`, `value` | VOC. About every 1.05 s. |
 | `sensors_1min.csv` | 21,016 | `time`, `humidity`, `temperature`, `VOC` | Built by `scripts/build_1min_dataset.py`: 1-minute means per sensor, joined on the timestamp, minutes with a missing sensor dropped. |
-| `samples/api_dump_sample.csv` | 1,700 | `timestamp`, `humidity`, `temperature`, `volatileOrganicCompounds` | Output of `iot/api_client/fetch_timeseries.py` on 10 June 2025, 15:41–16:39 UTC. Exactly 1,000 values per variable (the API limit), blanks where a sensor had no reading at that timestamp. Not used for modelling. |
+| `samples/api_dump_sample.csv` | 1,700 | `timestamp`, `humidity`, `temperature`, `volatileOrganicCompounds` | Output of `iot/api_client/fetch_timeseries.py` on 10 June 2025, 15:41-16:39 UTC. Exactly 1,000 values per variable (the API limit), blanks where a sensor had no reading at that timestamp. Not used for modelling. |
 
 Raw timestamps are ISO 8601 with nanoseconds and a `Z` suffix, e.g. `2025-06-03T00:00:00.150610304Z`. There are 1.85 million raw readings in total.
 
@@ -46,10 +46,10 @@ Raw timestamps are ISO 8601 with nanoseconds and a `Z` suffix, e.g. `2025-06-03T
 - **Gaps:** there are no missing values, but there are short gaps between readings. The largest is 133 s. Two minutes (12 June 08:56 and 16 June 12:19 UTC) have no reading from any sensor, so `sensors_1min.csv` has 21,016 rows instead of 21,018.
 - **Partial last day:** 17 June stops at 14:17 UTC.
 - **One room, two weeks:** the data covers one indoor space for 14.6 days, so daily patterns have only about 14 repetitions.
-- **Old `processed_data.csv` (not included):** an earlier analysis used a file called `processed_data.csv` (3–7 June, 7,005 rows). Its temperature and VOC columns were correct, but its humidity column was **not aligned in time**: it held humidity from the whole 14.6 days squeezed into 4.9 days of rows, about 3.1 %RH off on average. That file is **not used in this repo**. `sensors_1min.csv` replaces it, and every notebook reads either the raw exports or `sensors_1min.csv`, so all saved outputs come from those files.
+- **Old `processed_data.csv` (not included):** an earlier analysis used a file called `processed_data.csv` (3-7 June, 7,005 rows). Its temperature and VOC columns were correct, but its humidity column was **not aligned in time**: it held humidity from the whole 14.6 days squeezed into 4.9 days of rows, about 3.1 %RH off on average. That file is **not used in this repo**. `sensors_1min.csv` replaces it, and every notebook reads either the raw exports or `sensors_1min.csv`, so all saved outputs come from those files.
 
 ## Licence
 
 The data in this folder is licensed under **Creative Commons Attribution 4.0 (CC BY 4.0)**: https://creativecommons.org/licenses/by/4.0/ (see [`LICENSE`](LICENSE) in this folder).
 
-Please cite as: Maryam Mahaboob (2025), *Indoor air-quality sensor data (VOC, temperature, humidity), Arduino MKR IoT Carrier, 3–17 June 2025.*
+Please cite as: Maryam Mahaboob (2025), *Indoor air-quality sensor data (VOC, temperature, humidity), Arduino MKR IoT Carrier, 3-17 June 2025.*
